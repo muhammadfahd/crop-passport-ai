@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Harvest | CropPassport AI</title>
+  <link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/form.css">
+</head>
+<body>
+  <header class="site-header"><a class="brand" href="index.html"><span class="brand-mark">✦</span><span>CropPassport <b>AI</b></span></a><nav class="site-nav" aria-label="Main navigation"><a href="index.html">Home</a><a class="active" href="create-harvest.html">New harvest</a><a href="passport.html">Passport</a></nav></header>
+  <main class="form-page section-shell">
+    <a class="back-link" href="index.html">← Back to home</a>
+    <div class="page-intro"><p class="eyebrow">NEW HARVEST</p><h1>Start your crop story.</h1><p>Begin with the essential details. Every record helps build buyer trust.</p></div>
+    <form id="harvest-form" class="harvest-form">
+      <section class="form-section" aria-labelledby="farmer-details"><h2 id="farmer-details">Farmer &amp; farm</h2><div class="form-grid">
+        <label>Farmer name<input name="farmerName" required autocomplete="name" placeholder="e.g. Ayesha Khan"></label>
+        <label>Farm location<input name="farmLocation" required placeholder="e.g. Lahore, Punjab"></label>
+      </div></section>
+      <section class="form-section" aria-labelledby="crop-details"><h2 id="crop-details">Crop details</h2><div class="form-grid">
+        <label>Harvest name<input name="harvestName" required placeholder="e.g. Summer Basmati 2026"></label>
+        <label>Crop name<input name="cropName" required placeholder="e.g. Rice"></label>
+        <label>Crop variety<input name="cropVariety" required placeholder="e.g. Super Basmati"></label>
+        <label>Planting date<input name="plantingDate" type="date" required></label>
+        <label>Expected harvest date<input name="expectedHarvestDate" type="date" required></label>
+      </div></section>
+      <button class="submit-button" type="submit">Create Harvest <span>→</span></button>
+      <p id="form-message" class="form-message" aria-live="polite"></p>
+    </form>
+  </main>
+  <footer class="site-footer"><span>© 2026 CropPassport AI</span><span>Built for transparent agriculture.</span></footer>
+  <script src="js/utils.js"></script><script src="js/app.js"></script><script src="js/create.js"></script>
+</body>
+</html>
