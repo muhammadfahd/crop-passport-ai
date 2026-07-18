@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # CropPassport AI
 
 A hackathon MVP for creating simple, trustworthy Digital Crop Passports. Farmers can start a harvest record and view a buyer-friendly passport with a mock QR verification panel.
