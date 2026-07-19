@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Harvest Details | CropPassport AI</title><link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/form.css"></head>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Harvest Details | CropPassport AI</title><link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/form.css"><link rel="stylesheet" href="css/photo.css"><link rel="stylesheet" href="css/voice.css"></head>
 <body>
   <header class="site-header"><a class="brand" href="index.html"><span class="brand-mark">✦</span><span>CropPassport <b>AI</b></span></a><nav class="site-nav" aria-label="Main navigation"><a href="index.html">Home</a><a href="create-harvest.html">New harvest</a><a href="passport.html">Passport</a></nav></header>
   <main class="details-page section-shell">
@@ -9,7 +9,7 @@
     <section class="information-section" aria-labelledby="information-title"><div class="section-heading"><p class="eyebrow">PASSPORT DETAILS</p><h2 id="information-title">Harvest information</h2></div><div id="harvest-information" class="information-grid"></div></section>
     <section class="summary-section" aria-labelledby="summary-title"><div class="section-heading"><p class="eyebrow">HARVEST OVERVIEW</p><h2 id="summary-title">Harvest Summary</h2></div><div id="harvest-statistics" class="statistics-grid"></div><article class="passport-progress"><div class="progress-header"><div><p class="eyebrow">DIGITAL PASSPORT</p><h3>Documentation progress</h3></div><strong id="progress-percentage">20%</strong></div><div class="progress-track" aria-label="Digital passport progress"><span id="progress-bar"></span></div><p>Your harvest documentation is growing. Add more activities to build a trusted digital passport.</p></article></section>
     <section class="activity-section" aria-labelledby="timeline-title"><div class="section-heading"><p class="eyebrow">FIELD JOURNEY</p><h2 id="timeline-title">Timeline Activities</h2></div><div id="activity-timeline" class="activity-timeline"></div></section>
-    <section class="activity-actions" aria-label="Harvest actions"><button id="add-text-activity" type="button" class="activity-button"><span>📝</span>Add Text Activity</button><button type="button" class="activity-button"><span>📷</span>Upload Photo</button><button type="button" class="activity-button"><span>🎤</span>Record Voice Note</button><a class="activity-button passport-action" href="passport.html"><span>📄</span>Generate Passport</a></section>
+    <section class="activity-actions" aria-label="Harvest actions"><button id="add-text-activity" type="button" class="activity-button"><span>📝</span>Add Text Activity</button><button id="upload-photo" type="button" class="activity-button"><span>📷</span>Upload Photo</button><button id="record-voice-note" type="button" class="activity-button"><span>🎤</span>Record Voice Note</button><a class="activity-button passport-action" href="passport.html"><span>📄</span>Generate Passport</a></section>
   </main>
   <dialog id="activity-modal" class="activity-modal" aria-labelledby="activity-modal-title">
     <form id="activity-form" method="dialog">
@@ -18,6 +18,28 @@
       <label>Activity description<textarea name="description" required rows="5" maxlength="500" placeholder="Add a short note about what happened in the field."></textarea></label>
       <label>Activity date<input name="date" type="date" required></label>
       <div class="modal-actions"><button id="cancel-activity" type="button" class="modal-cancel">Cancel</button><button type="submit" class="submit-button">Save Activity <span>→</span></button></div>
+    </form>
+  </dialog>
+  <dialog id="voice-note-modal" class="activity-modal" aria-labelledby="voice-note-title">
+    <form id="voice-note-form" method="dialog">
+      <div class="modal-heading"><div><p class="eyebrow">FIELD JOURNEY</p><h2 id="voice-note-title">Record voice note</h2></div><button id="close-voice-modal" class="close-modal" type="button" aria-label="Close dialog">×</button></div>
+      <div class="voice-recording-controls"><button id="start-voice-recording" class="record-start" type="button">Start recording</button><button id="stop-voice-recording" class="record-stop" type="button" hidden>Stop recording</button><button id="rerecord-voice-note" type="button" hidden>Re-record</button><span id="voice-note-elapsed" class="voice-recording-time">0:00</span></div>
+      <div class="voice-preview-wrap"><p>Playback preview</p><audio id="voice-note-preview" controls hidden>Your browser cannot play this audio note.</audio></div>
+      <label>Voice note description <span class="optional-label">(optional)</span><textarea name="description" rows="3" maxlength="500" placeholder="e.g. Noticed healthy growth after rainfall"></textarea></label>
+      <label>Activity date<input name="date" type="date" required></label>
+      <p id="voice-note-message" class="form-message" aria-live="polite"></p>
+      <div class="modal-actions"><button id="cancel-voice-note" type="button" class="modal-cancel">Cancel</button><button type="submit" class="submit-button">Save Voice Note <span>→</span></button></div>
+    </form>
+  </dialog>
+  <dialog id="photo-upload-modal" class="activity-modal" aria-labelledby="photo-upload-title">
+    <form id="photo-upload-form" method="dialog">
+      <div class="modal-heading"><div><p class="eyebrow">FIELD JOURNEY</p><h2 id="photo-upload-title">Upload crop photo</h2></div><button id="close-photo-modal" class="close-modal" type="button" aria-label="Close dialog">×</button></div>
+      <label>Crop photo<input name="photo" type="file" accept="image/*" required></label>
+      <img id="photo-upload-preview" class="upload-photo-preview" alt="Selected crop photo preview" hidden>
+      <label>Photo description <span class="optional-label">(optional)</span><textarea name="description" rows="3" maxlength="500" placeholder="e.g. Rice plants after irrigation"></textarea></label>
+      <label>Activity date<input name="date" type="date" required></label>
+      <p id="photo-upload-message" class="form-message" aria-live="polite"></p>
+      <div class="modal-actions"><button id="cancel-photo-upload" type="button" class="modal-cancel">Cancel</button><button type="submit" class="submit-button">Save Photo <span>→</span></button></div>
     </form>
   </dialog>
   <dialog id="ai-review-modal" class="activity-modal ai-review-modal" aria-labelledby="ai-review-title">
@@ -35,6 +57,6 @@
     </div>
   </dialog>
   <footer class="site-footer"><span>© 2026 CropPassport AI</span><span>Built for transparent agriculture.</span></footer>
-  <script src="js/utils.js"></script><script src="js/app.js"></script><script src="js/harvest.js"></script>
+  <script src="js/utils.js"></script><script src="js/app.js"></script><script src="js/photo-upload.js"></script><script src="js/voice-notes.js"></script><script src="js/harvest.js"></script>
 </body>
 </html>

@@ -83,8 +83,11 @@ function renderActivities() {
   }
   timelineContainer.innerHTML = activities.map((activity, index) => {
     const presentation = getActivityPresentation(activity);
-    return `<article class="timeline-card" style="--card-index:${index}"><span class="timeline-node ${getActivityType(activity)}"><span>${presentation.icon}</span></span><div class="timeline-card-content"><div class="timeline-card-heading"><div><p class="activity-type">${presentation.label}</p><h3>${escapeHtml(activity.title)}</h3></div><time datetime="${activity.date}">${getRelativeDate(activity.date)}</time></div><p>${escapeHtml(activity.description)}</p><small>${CropPassport.formatDate(activity.date)}</small></div></article>`;
+    const photo = getActivityType(activity) === 'photo' ? CropPassportPhoto.thumbnail(activity) : '';
+    const voice = getActivityType(activity) === 'voice' ? CropPassportVoice.player(activity) : '';
+    return `<article class="timeline-card" style="--card-index:${index}"><span class="timeline-node ${getActivityType(activity)}"><span>${presentation.icon}</span></span><div class="timeline-card-content"><div class="timeline-card-heading"><div><p class="activity-type">${presentation.label}</p><h3>${escapeHtml(activity.title)}</h3></div><time datetime="${activity.date}">${getRelativeDate(activity.date)}</time></div>${photo}${voice}<p>${escapeHtml(activity.description)}</p><small>${CropPassport.formatDate(activity.date)}</small></div></article>`;
   }).join('');
+  CropPassportVoice.hydratePlayers(timelineContainer);
 }
 
 function openActivityModal(activityData = null) {
@@ -150,10 +153,14 @@ if (harvest) {
   document.querySelector('#save-ai-activity').addEventListener('click', saveReviewedActivity);
   document.querySelector('#edit-ai-activity').addEventListener('click', editReviewedActivity);
   document.querySelector('#cancel-ai-review').addEventListener('click', cancelAiReview);
+  CropPassportPhoto.initUpload({ harvest, onSaved: renderActivities });
+  CropPassportVoice.initRecorder({ harvest, onSaved: renderActivities });
 } else {
   document.querySelector('#detail-harvest-name').textContent = 'Harvest not found';
   document.querySelector('#detail-crop').textContent = 'Create a new harvest record to see its details here.';
   detailsContainer.innerHTML = '<p class="missing-record">We could not find this harvest record in this browser.</p>';
   timelineContainer.innerHTML = '';
   document.querySelector('#add-text-activity').disabled = true;
+  document.querySelector('#upload-photo').disabled = true;
+  document.querySelector('#record-voice-note').disabled = true;
 }
