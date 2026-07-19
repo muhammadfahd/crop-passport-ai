@@ -57,13 +57,14 @@ const CropPassport = {
   getTraceabilityScore(harvest, activities) {
     const harvestInformationComplete = ['harvestName', 'cropName', 'cropVariety', 'farmerName', 'farmLocation', 'plantingDate', 'expectedHarvestDate']
       .every((field) => Boolean(harvest[field]));
-    const activityTypes = activities.map((activity) => activity.type || 'text');
+    const hasStoredPhoto = activities.some((activity) => activity.type === 'photo' && typeof activity.photoData === 'string' && activity.photoData.startsWith('data:image/'));
+    const hasStoredVoice = activities.some((activity) => activity.type === 'voice' && typeof activity.audioData === 'string' && activity.audioData.startsWith('data:audio/'));
     return Math.min(100,
       (harvestInformationComplete ? 30 : 0)
       + (activities.length >= 1 ? 20 : 0)
       + (activities.length >= 3 ? 15 : 0)
-      + (activityTypes.includes('photo') ? 15 : 0)
-      + (activityTypes.includes('voice') ? 10 : 0)
+      + (hasStoredPhoto ? 15 : 0)
+      + (hasStoredVoice ? 10 : 0)
       + 10
     );
   },
