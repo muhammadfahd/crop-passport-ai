@@ -29,6 +29,14 @@ const CropPassport = {
     const harvestId = id || localStorage.getItem('cropPassportLatestHarvest');
     return harvests.find((harvest) => harvest.id === harvestId) || null;
   },
+  updateHarvest(harvestId, updates) {
+    const harvests = this.getHarvests();
+    const index = harvests.findIndex((harvest) => harvest.id === harvestId);
+    if (index === -1) return null;
+    harvests[index] = { ...harvests[index], ...updates };
+    localStorage.setItem(this.storageKey, JSON.stringify(harvests));
+    return harvests[index];
+  },
   deleteHarvest(harvestId) {
     const harvests = this.getHarvests();
     const remainingHarvests = harvests.filter((harvest) => harvest.id !== harvestId);

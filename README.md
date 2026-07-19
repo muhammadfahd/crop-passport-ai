@@ -1,30 +1,51 @@
-<<<<<<< HEAD
 # CropPassport AI
 
-A hackathon MVP for creating simple, trustworthy Digital Crop Passports. Farmers can start a harvest record and view a buyer-friendly passport with a mock QR verification panel.
+CropPassport AI is a plain HTML, CSS, and vanilla JavaScript project with an Express backend. Harvests, activities, passports, QR links, and buyer views continue to use browser `localStorage`.
 
-## Project structure
+## Run locally
 
-```
-CropPassportAI/
-├── index.html                 # Home page
-├── create-harvest.html        # Harvest creation form
-├── harvest-details.html       # Mock field activity timeline
-├── passport.html              # Buyer-facing digital passport
-├── css/                       # Shared and page-specific styles
-├── js/                        # Shared utilities and page scripts
-└── assets/                    # Reserved for icons, images, and logo files
+1. Create a `.env` file in this folder.
+2. Add your OpenRouter key:
+
+```env
+OPENROUTER_API_KEY=your_openrouter_api_key_here
 ```
 
-## Run with VS Code Live Server
+3. Install dependencies:
 
-1. Open the `CropPassportAI` folder in VS Code.
-2. Install the **Live Server** extension if it is not already installed.
-3. Right-click `index.html` and choose **Open with Live Server**.
-4. The project opens in your browser. Use the navigation or home-page cards to visit each screen.
+```bash
+npm install
+```
 
-## Demo behaviour
+4. Start the application:
 
-Submitting the create-harvest form stores the supplied values in browser `localStorage`. The passport and details pages then display those values. This mock behaviour needs no backend and can be reset by clearing the browser's site data.
+```bash
+npm start
+```
 
-Firebase, AI summaries, photo uploads, voice notes, and production QR generation are intentionally placeholder features for this MVP.
+5. Open `http://localhost:3000`.
+
+The Express server serves the HTML, CSS, JavaScript, images, and both AI endpoints. No additional static file server is required.
+
+## Test AI Activity Analysis
+
+1. Create a harvest and open its details page.
+2. Select **Add Text Activity**.
+3. Enter: `Today I sprayed pesticide on my mango trees because I noticed insects after yesterday's rain.`
+4. Set an activity date and select **Analyze with AI**.
+5. Review the structured AI result and select **Save to Timeline**.
+
+The frontend calls `POST /api/analyze-activity`; Express calls OpenRouter with the server-only `OPENROUTER_API_KEY`. If the request fails, the farmer can return to the note and retry without losing it.
+
+## Test AI Traceability Summary
+
+1. Add saved activities to a harvest.
+2. Open that harvest's passport.
+3. Select **Generate AI Traceability Summary**.
+4. The summary is saved to the harvest in `localStorage` and shown again in the buyer view without another AI request.
+
+## Security
+
+- Keep the real key only in `.env`; it is ignored by Git.
+- Do not place API keys in frontend JavaScript, HTML, or `localStorage`.
+- Server logs report failure categories without printing the API key.
